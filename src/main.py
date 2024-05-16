@@ -1,7 +1,7 @@
-from selenium import main as selenium_main
+from instagram import main as instagram_main
 
 def main():
     print("main function")
-    selenium_main()
+    instagram_main()
 
 main()
