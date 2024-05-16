@@ -31,14 +31,33 @@ def driver(options):
     passwordField.send_keys("")
     loginButton.click()
 
-    # Check for "save your login info" popup dialog
-    if(WebDriverWait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '#mount_0_0_\/G > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.x1q0g3np.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > section > main > div > div > div > section > div > button')))):
-        saveInfo = findElements(driver,"#mount_0_0_\/G > div > div > div.x9f619.x1n2onr6.x1ja2u2z > div > div > div.x78zum5.xdt5ytf.x1t2pt76.x1n2onr6.x1ja2u2z.x10cihs4 > div.x9f619.xvbhtw8.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1c4vz4f.x2lah0s.x1q0g3np.xqjyukv.x1qjc9v5.x1oa3qoh.x1qughib > div.x1gryazu.xh8yej3.x10o80wk.x14k21rp.x17snn68.x6osk4m.x1porb0y > section > main > div > div > div > section > div > button","selector")
-        saveInfo.click()
-    
-    if(WebDriverWait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'body > div.x1n2onr6.xzkaem6 > div.x9f619.x1n2onr6.x1ja2u2z > div > div.x1uvtmcs.x4k7w5x.x1h91t0o.x1beo9mf.xaigb6o.x12ejxvf.x3igimt.xarpa2k.xedcshv.x1lytzrv.x1t2pt76.x7ja8zs.x1n2onr6.x1qrby5j.x1jfb8zj > div > div > div > div > div.x7r02ix.xf1ldfh.x131esax.xdajt7p.xxfnqb6.xb88tzc.xw2csxc.x1odjw0f.x5fp0pe > div > div > div._a9-z > button._a9--._ap36._a9_1')))):
-        notNow = findElements(driver, "body > div.x1n2onr6.xzkaem6 > div.x9f619.x1n2onr6.x1ja2u2z > div > div.x1uvtmcs.x4k7w5x.x1h91t0o.x1beo9mf.xaigb6o.x12ejxvf.x3igimt.xarpa2k.xedcshv.x1lytzrv.x1t2pt76.x7ja8zs.x1n2onr6.x1qrby5j.x1jfb8zj > div > div > div > div > div.x7r02ix.xf1ldfh.x131esax.xdajt7p.xxfnqb6.xb88tzc.xw2csxc.x1odjw0f.x5fp0pe > div > div > div._a9-z > button._a9--._ap36._a9_1", "selector")
-        notNow.click()
+    # Locate and click the "Create" button
+    time.sleep(6)
+    createButton = findElements(driver, '[aria-label="New post"]', "selector")
+    createButton.click()
+
+    # Wait for the "Select from computer" button to be clickable and then click it
+    time.sleep(5)
+    selectButton = driver.find_element(By.XPATH, '//button[@type="button" and text()="Select from computer"]')
+    selectButton.click()
+
+
+    time.sleep(2)
+    # Wait for the file input element to be present and upload the file
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//input[@type="file"]')))
+    fileInput = driver.find_element(By.XPATH, '//input[@type="file"]')
+    file_path = "C:\\Users\\vboxuser\\Desktop\\Annotation 2024-05-16 181804.png"  # Provide the full path to the image file
+    fileInput.send_keys(os.path.abspath(file_path))  # Ensure the path is absolute
+
+    # fileInput = driver.find_element(By.XPATH, '//input[@type="file"]')
+    # fileInput.send_keys("C:\\Users\\vboxuser\\Desktop\\Annotation 2024-05-16 181804.png")
+
+    time.sleep(2)
+    nextButton = driver.find_element(By.XPATH, '//button[@role="button" and text()="Next"]')
+    nextButton.click()
+    nextButton.click()
+
+    time.sleep(2)
 
 
 
