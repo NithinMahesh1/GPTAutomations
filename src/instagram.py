@@ -8,6 +8,7 @@ chrome_options.add_experimental_option("detach", True)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from pynput.keyboard import Key, Controller
 
 def main():
     options = webdriver.ChromeOptions()
@@ -45,12 +46,16 @@ def driver(options):
     loginButton.click()
 
     # Random scrolling
-    if(ifScroll()):
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    # if(ifScroll()):
+    #     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     
     # Locate and click the "Create" button
-    time.sleep(randomTimer("medium"))
-    createButton = findElements(driver, '[aria-label="New post"]', "selector")
+    time.sleep(randomTimer("long"))
+    try:
+        createButton = findElements(driver, '[aria-label="New post"]', "selector")
+    except:
+        createButton = findElements(driver, '//span[text()="Create"]', "XPath")
+
     createButton.click()
 
     # Wait for the "Select from computer" button to be clickable and then click it
@@ -60,18 +65,23 @@ def driver(options):
 
 
     time.sleep(randomTimer("medium"))
+
     # Wait for the file input element to be present and upload the file
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//input[@type="file"]')))
     fileInput = driver.find_element(By.XPATH, '//input[@type="file"]')
-    file_path = "C:\\Users\\vboxuser\\Desktop\\Annotation 2024-05-16 181804.png"
-    fileInput.send_keys(os.path.abspath(file_path))
+    fileInput.click()
+    keyboard = Controller()
+    keyboard.type("")
+    keyboard.press(Key.enter)
+    keyboard.release(Key.enter)
 
-    # fileInput = driver.find_element(By.XPATH, '//input[@type="file"]')
-    # fileInput.send_keys("C:\\Users\\vboxuser\\Desktop\\Annotation 2024-05-16 181804.png")
-
+    # After uploading picture we click next
     time.sleep(randomTimer("medium"))
     nextButton = driver.find_element(By.XPATH, '//button[@role="button" and text()="Next"]')
     nextButton.click()
+
+    # TODO add logic here to type in inputs for post captions
+    # Once captions are uploaded we need to click next
+    # Also where chatGPT will run its logic
     nextButton.click()
 
     time.sleep(randomTimer("medium"))
@@ -96,7 +106,7 @@ def findElements(driver,input,type):
 def randomTimer(type):
     count = 0
     if(type == "short"):
-        list = [0.1,0.2,0.3,0.4,0.4,0.5,0.6,0.7,0.7,0.8,0.9]
+        list = [0.1,2,0.2,3,0.3,5,7,0.4,4,0.4,3,0.5,3.2,4.6,0.6,5,0.7,2,0.7,0.8,0.9]
         count = random.choice(list)
     if(type == "medium"):
         list = [1,2,3,4,5,6,7]
