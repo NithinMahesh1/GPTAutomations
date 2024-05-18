@@ -1,6 +1,9 @@
 import requests
 import base64
 
+# TODO need to change this to check a folder directory
+# If the folder directory contains more than one image we build a different payload
+# Else we use this same payload
 def main():
     api_key = input("Enter your openAI api key: \n")
     imagePath = ""

@@ -45,7 +45,7 @@ def driver(options):
 
     loginButton.click()
 
-    # Random scrolling
+    # TODO fix random scrolling
     # if(ifScroll()):
     #     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     
@@ -59,12 +59,12 @@ def driver(options):
     createButton.click()
 
     # Wait for the "Select from computer" button to be clickable and then click it
-    time.sleep(randomTimer("medium"))
+    time.sleep(randomTimer("long"))
     selectButton = driver.find_element(By.XPATH, '//button[@type="button" and text()="Select from computer"]')
     selectButton.click()
 
 
-    time.sleep(randomTimer("medium"))
+    time.sleep(randomTimer("long"))
 
     # Wait for the file input element to be present and upload the file
     fileInput = driver.find_element(By.XPATH, '//input[@type="file"]')
@@ -75,7 +75,7 @@ def driver(options):
     keyboard.release(Key.enter)
 
     # After uploading picture we click next
-    time.sleep(randomTimer("medium"))
+    time.sleep(randomTimer("long"))
     nextButton = driver.find_element(By.XPATH, '//button[@role="button" and text()="Next"]')
     nextButton.click()
 
