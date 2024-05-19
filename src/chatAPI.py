@@ -1,9 +1,9 @@
 import requests
 import base64
 
-def main():
-    api_key = input("Enter your openAI api key: \n")
-    imagePath = ""
+def main(imagePath, api_key):
+    # api_key = input("Enter your openAI api key: \n")
+    # imagePath = ""
 
     # Getting the base64 string
     base64_image = encode_image(imagePath)
@@ -38,6 +38,7 @@ def main():
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
 
     print(response.json())
+    return response.json()
 
 
 
