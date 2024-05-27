@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pynput.keyboard import Key, Controller
 from chatAPI import main as chat_main
+from selenium_stealth import stealth
 
 # TODO we need to generalize and abstract the instagram class
     # We can reuse a ton of classes from there such as randomTimer
@@ -29,7 +30,7 @@ def main():
     options = webdriver.ChromeOptions()
     options.add_experimental_option("detach", True)
     options.add_argument(f"user-data-dir={userDataDir}")
-    options.add_argument('--profile-directory=Profile 1')
+    options.add_argument('--profile-directory=Default')
     user_agents = [
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36',
@@ -42,6 +43,16 @@ def main():
 
 def driver(options):
     driver = webdriver.Chrome(options=options)
+
+    # Apply stealth settings
+    stealth(driver,
+        languages=["en-US", "en"],
+        vendor="Google Inc.",
+        platform="Win32",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True)
+
     driver.get("https://www.tiktok.com/@nohesigg")
     time.sleep(randomTimer("long"))
 
@@ -57,11 +68,11 @@ def driver(options):
     for button in followButtons:
         time.sleep(randomTimer("short"))
         if(count != 20):
-            time.sleep(randomTimer("medium"))
+            time.sleep(randomTimer("short"))
             try:
                 time.sleep(randomTimer("short"))
                 WebDriverWait(driver, 10).until(EC.element_to_be_clickable(button))
-                time.sleep(randomTimer("medium"))
+                time.sleep(randomTimer("short"))
                 driver.execute_script("arguments[0].scrollIntoView(true);", button)
                 time.sleep(randomTimer("short"))
                 button.click()
@@ -90,7 +101,7 @@ def findElements(driver,input,type):
 def randomTimer(type):
     count = 0
     if(type == "short"):
-        list = [0.1,2,0.2,3,0.3,0.4,4,0.4,3,0.5,3.2,2.6,0.6,3.2,0.7,2,0.7,0.8,0.9]
+        list = [0.1,2,0.2,3,0.3,0.4,4,0.4,3,0.5,3.2,2.6,0.6,3.2,0.7,2,0.7,0.8,0.9,1.1,1.2,1.3,1.4,1.5,1.6,1.7,2.2,2.3,2.4]
         count = random.choice(list)
     if(type == "medium"):
         list = [1,2,3,4,5,6,7]
