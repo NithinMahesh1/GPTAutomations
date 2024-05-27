@@ -2,9 +2,6 @@ import requests
 import base64
 
 def main(imagePath, api_key):
-    # api_key = input("Enter your openAI api key: \n")
-    # imagePath = ""
-
     # Getting the base64 string
     base64_image = encode_image(imagePath)
 

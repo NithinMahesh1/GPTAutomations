@@ -10,8 +10,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pynput.keyboard import Key, Controller
 from chatAPI import main as chat_main
+from selenium_stealth import stealth
 
-def main(fileDir,api_key):
+def main(fileDir,api_key,username,password):
     # Get the directory of the current file (src)
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -33,11 +34,21 @@ def main(fileDir,api_key):
     ]
     options.add_argument(f'user-agent={random.choice(user_agents)}')
 
-    driver(options,fileDir,api_key)
+    driver(options,fileDir,api_key,username,password)
 
 
 def driver(options,fileDir,api_key,username,password):
     driver = webdriver.Chrome(options=options)
+    
+    # Apply stealth settings
+    stealth(driver,
+        languages=["en-US", "en"],
+        vendor="Google Inc.",
+        platform="Win32",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True)
+    
     driver.get("https://www.instagram.com/")
     time.sleep(randomTimer("long"))
 
@@ -53,10 +64,6 @@ def driver(options,fileDir,api_key,username,password):
     sendKeys(passwordField,password)
     time.sleep(randomTimer("medium"))
     loginButton.click()
-
-    # Random scrolling
-    # if(ifScroll()):
-    #     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     
     # Locate and click the "Create" button
     time.sleep(randomTimer("long"))
@@ -134,13 +141,6 @@ def randomTimer(type):
         count = random.choice(list)
 
     return count
-
-
-def ifScroll():
-    yesOrNo = ["True","False"]
-    isScroll = random.choice(yesOrNo)
-    
-    return isScroll
 
 
 def sendKeys(elem,keys):
