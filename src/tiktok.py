@@ -30,7 +30,7 @@ def main():
     options = webdriver.ChromeOptions()
     options.add_experimental_option("detach", True)
     options.add_argument(f"user-data-dir={userDataDir}")
-    options.add_argument('--profile-directory=Default')
+    options.add_argument('--profile-directory=Profile 1')
     user_agents = [
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36',
@@ -67,16 +67,16 @@ def driver(options):
     count = 0
     for button in followButtons:
         time.sleep(randomTimer("short"))
-        if(count != 20):
+        if(count != 40):
             time.sleep(randomTimer("short"))
             try:
                 time.sleep(randomTimer("short"))
                 WebDriverWait(driver, 10).until(EC.element_to_be_clickable(button))
                 time.sleep(randomTimer("short"))
                 driver.execute_script("arguments[0].scrollIntoView(true);", button)
-                time.sleep(randomTimer("short"))
+                # time.sleep(randomTimer("short"))
                 button.click()
-                time.sleep(randomTimer("short"))
+                # time.sleep(randomTimer("short"))
             except:
                 print("failed follow button click on follower: " +count)
         count += 1
